@@ -7,11 +7,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NCalc;
 
 namespace Wpf_grafik_41
 {
@@ -23,6 +25,7 @@ namespace Wpf_grafik_41
         public MainWindow()
         {
             InitializeComponent();
+            this.SizeChanged += Chizish_Click;
         }
         private void Chizish_Click(object sender,RoutedEventArgs e)
         {
@@ -69,8 +72,10 @@ namespace Wpf_grafik_41
                 Chizma_chiz(kanvas, markazX-5, y , markazX+5, y);
             for (double y = markazY - step;y > 0; y -= step)
                 Chizma_chiz(kanvas, markazX - 5, y, markazX + 5, y);
-            //
-
+            Chizma_chiz(kanvas, markazX - 10, 5, markazX, 0);
+            Chizma_chiz(kanvas, markazX + 10, 5, markazX, 0);
+            Chizma_chiz(kanvas, Width-5 , markazY-10, Width, markazY);
+            Chizma_chiz(kanvas, Width - 5, markazY + 10, Width, markazY);
         }
 
         public void Chizma_chiz(Canvas kanvas, double x1,double y1, double x2, double y2)
@@ -85,6 +90,23 @@ namespace Wpf_grafik_41
                 StrokeThickness = 0.5,
             };
             kanvas.Children.Add(chiziq);
+        }
+
+        public void Funksiya_grafigi(Canvas kanvas, String Formula)
+        {
+            double Width = kanvas.ActualWidth;
+            double Height = kanvas.ActualHeight;
+            double markazX = Width / 2;
+            Double markazY = Height / 2;
+            double step = Width / 20;
+
+            Polyline polyline = new Polyline
+            {
+                Stroke = Brushes.Red,
+                StrokeThickness = 2
+            };
+
+
         }
     }
 }
