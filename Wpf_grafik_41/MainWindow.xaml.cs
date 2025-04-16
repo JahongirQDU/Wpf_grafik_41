@@ -24,5 +24,9 @@ namespace Wpf_grafik_41
         {
             InitializeComponent();
         }
+        private void Chizish_Click(object sender,RoutedEventArgs e)
+        {
+
+        }
     }
 }
