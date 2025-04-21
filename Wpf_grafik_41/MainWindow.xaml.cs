@@ -30,10 +30,11 @@ namespace Wpf_grafik_41
         private void Chizish_Click(object sender,RoutedEventArgs e)
         {
             GraphCanvas.Children.Clear();
-            Koordinata_chiz(GraphCanvas);
+            Koordinata_chiz(GraphCanvas, Convert.ToDouble(ulcham.Text));
+            Funksiya_grafigi(GraphCanvas, FunksiyaMatni.Text,Convert.ToDouble( ulcham.Text));
         }
 
-        private void Koordinata_chiz(Canvas kanvas)
+        private void Koordinata_chiz(Canvas kanvas,double ulcham)
         {
             double Width = kanvas.ActualWidth; 
             double Height=kanvas.ActualHeight;
@@ -61,7 +62,7 @@ namespace Wpf_grafik_41
             kanvas.Children.Add(Yoqi);
 
             //chiziqchalarni chizish
-            double step=Width/20;
+            double step=Width/ulcham;
 
             for(double x=markazX+step;x<Width;x+=step)
                 Chizma_chiz(kanvas,x,markazY-5,x,markazY+5);
@@ -92,19 +93,35 @@ namespace Wpf_grafik_41
             kanvas.Children.Add(chiziq);
         }
 
-        public void Funksiya_grafigi(Canvas kanvas, String Formula)
+        public void Funksiya_grafigi(Canvas kanvas, String Formula ,double ulcham)
         {
             double Width = kanvas.ActualWidth;
             double Height = kanvas.ActualHeight;
             double markazX = Width / 2;
             Double markazY = Height / 2;
-            double step = Width / 20;
+            double step = Width / ulcham;
 
             Polyline polyline = new Polyline
             {
                 Stroke = Brushes.Red,
                 StrokeThickness = 2
             };
+
+            for (double x = (-1)*ulcham/2; x <= ulcham / 2; x += 0.1)
+            {
+                var ifoda = new NCalc.Expression(Formula);//y=formula//y=Cos(x)
+                ifoda.Parameters["x"] = x;
+                double y = Convert.ToDouble(ifoda.Evaluate());
+                Point a = new Point(markazX + x * step, markazY - y * step);
+                polyline.Points.Add(a);
+                //double ekranX = markazX + x * step;
+                //double ekranY = markazY - y * step;
+
+                //polyline.Points.Add(new Point(ekranX, ekranY));
+            }
+
+            kanvas.Children.Add(polyline);
+
 
 
         }
